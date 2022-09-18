@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Hear You</string>
+    <string name="please_grant_persmission">Please, grant the audio record permission!</string>
+    <string name="grant_permission">Grant Permission</string>
+    <string name="recording">Recording</string>
+    <string name="not_recording">Not recording</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+</resources>
