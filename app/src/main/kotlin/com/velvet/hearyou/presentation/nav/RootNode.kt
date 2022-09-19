@@ -9,11 +9,13 @@ import com.bumble.appyx.core.node.ParentNode
 import com.bumble.appyx.navmodel.backstack.BackStack
 import com.bumble.appyx.navmodel.backstack.transitionhandler.rememberBackstackSlider
 import com.velvet.hearyou.presentation.ManagePermission
+import com.velvet.hearyou.presentation.SpeechRecognition
 import com.velvet.hearyou.presentation.main.MainNode
 
 class RootNode(
     buildContext: BuildContext,
     private val managePermission: ManagePermission,
+    private val speechRecognition: SpeechRecognition,
     private val backStack: BackStack<Routing> = BackStack(
         Routing.Main,
         buildContext.savedStateMap
@@ -24,7 +26,7 @@ class RootNode(
 ) {
 
     override fun resolve(routing: Routing, buildContext: BuildContext): Node = when (routing) {
-        is Routing.Main -> MainNode(buildContext, managePermission)
+        is Routing.Main -> MainNode(buildContext, managePermission, speechRecognition)
     }
 
     @Composable

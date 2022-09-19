@@ -22,7 +22,7 @@ dependencyResolutionManagement {
             library("appyxCore", "com.bumble.appyx", "core").versionRef("appyx")
             library("core", "androidx.core", "core-ktx").version("1.9.0")
             library("ui", "androidx.compose.ui", "ui").versionRef("composeUI")
-            library("material3", "androidx.compose.material3", "material3").version("1.0.0-beta02")
+            library("material", "androidx.compose.material", "material").version("1.2.1")
             library("toolingPreview", "androidx.compose.ui", "ui-tooling-preview").versionRef("composeUI")
             library("lifecycleRuntime", "androidx.lifecycle", "lifecycle-runtime-ktx").version("2.5.1")
             library("activityCompose", "androidx.activity", "activity-compose").version("1.5.1")
@@ -34,7 +34,7 @@ dependencyResolutionManagement {
                 listOf(
                     "core",
                     "ui",
-                    "material3",
+                    "material",
                     "toolingPreview",
                     "lifecycleRuntime",
                     "activityCompose",
