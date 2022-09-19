@@ -16,6 +16,7 @@ dependencyResolutionManagement {
             version("accompanist", "0.25.1")
             version("orbit", "4.3.2")
             //implementation
+            library("vosk", "com.alphacephei", "vosk-android").version("0.3.38")
             library("controller", "com.google.accompanist", "accompanist-systemuicontroller").versionRef("accompanist")
             library("koin", "io.insert-koin", "koin-android").versionRef("koin")
             library("koinCompose", "io.insert-koin", "koin-androidx-compose").versionRef("koin")
@@ -44,7 +45,8 @@ dependencyResolutionManagement {
                     "orbitCore",
                     "orbitViewModel",
                     "orbitCompose",
-                    "controller"
+                    "controller",
+                    "vosk"
                 )
             )
             //testImplementation
