@@ -3,6 +3,7 @@ package com.velvet.hearyou.presentation
 import android.content.Context
 
 import org.vosk.Model
+import org.vosk.Recognizer
 import org.vosk.android.RecognitionListener
 import org.vosk.android.SpeechService
 import org.vosk.android.StorageService
@@ -23,10 +24,12 @@ interface SpeechRecognition {
 
         private lateinit var model: Model
 
-        private fun initModel() {
+        private var speechService: SpeechService? = null
+
+        init {
             StorageService.unpack(
                 context,
-                "vosk-model-small-ru-0.22",
+                "model-small-ru",
                 "model",
                 {
                     model = it
@@ -55,11 +58,14 @@ interface SpeechRecognition {
         }
 
         override fun startRecognition() {
-
+            val recognizer = Recognizer(model, 16000f)
+            speechService = SpeechService(recognizer, 16000f)
+            speechService?.startListening(this)
         }
 
         override fun stopRecognition() {
-            TODO("Not yet implemented")
+            speechService?.stop()
+            speechService = null
         }
 
         override fun setSpeechRecognitionListener(listener: SpeechRecognitionListener) {

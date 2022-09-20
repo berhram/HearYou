@@ -13,8 +13,13 @@ android {
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        ndk {
+            abiFilters.add("armeabi-v7a")
+            abiFilters.add("arm64-v8a")
+            abiFilters.add("x86_64")
+            abiFilters.add("x86")
+        }
     }
 
     buildTypes {
@@ -41,6 +46,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":models"))
+    implementation("net.java.dev.jna:jna:5.12.1")
     implementation(deps.bundles.implementation)
     testImplementation(deps.bundles.testImplementation)
     androidTestImplementation(deps.bundles.androidTestImplementation)

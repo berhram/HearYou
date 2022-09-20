@@ -77,3 +77,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Hear You"
 include(":app")
+include(":models")
