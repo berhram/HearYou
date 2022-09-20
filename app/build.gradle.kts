@@ -47,8 +47,12 @@ android {
 
 dependencies {
     implementation(project(":models"))
-    implementation("net.java.dev.jna:jna:5.12.1")
+    implementation(deps.gson)
+    implementation("net.java.dev.jna", "jna", "5.12.1", ext = "aar")
     implementation(deps.bundles.implementation)
+    implementation(deps.vosk) {
+        exclude("net.java.dev.jna", "jna")
+    }
     testImplementation(deps.bundles.testImplementation)
     androidTestImplementation(deps.bundles.androidTestImplementation)
     debugImplementation(deps.bundles.debugImplementation)

@@ -3,9 +3,10 @@ package com.velvet.hearyou.presentation.main
 import android.Manifest
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.velvet.hearyou.presentation.ManagePermission
-import com.velvet.hearyou.presentation.SpeechRecognition
-import com.velvet.hearyou.presentation.SpeechRecognitionListener
+import com.velvet.hearyou.permission.ManagePermission
+import com.velvet.hearyou.speech.SpeechRecognition
+import com.velvet.hearyou.speech.SpeechRecognitionListener
+import com.velvet.hearyou.speech.SpeechRecognitionState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.Container
@@ -24,28 +25,44 @@ class MainViewModel(
             MainState(
                 onGrantClick = { grantPermission() },
                 onStartStopClick = { startStopRecording() },
-                isPermissionGranted = false
+                isPermissionGranted = false,
+                onClearClick = { onClearButtonClick() }
             )
         )
 
     init {
         speechRecognition.setSpeechRecognitionListener(this)
+        checkPermission()
     }
 
     override fun onSpeechRecognized(data: String) = intent {
         reduce {
-            state.copy(convertedText = "${state.convertedText} $data")
+            state.copy(convertedText = "${state.convertedText}\n$data")
+        }
+    }
+
+    override fun onState(state: SpeechRecognitionState) = intent {
+        reduce {
+            this.state.copy(speechRecognitionState = state)
+        }
+    }
+
+    private fun onClearButtonClick() = intent {
+        reduce {
+            state.copy(convertedText = "")
+        }
+    }
+
+    private fun checkPermission() = intent {
+        val isPermissionGranted = managePermission.checkPermission(Manifest.permission.RECORD_AUDIO)
+        reduce {
+            state.copy(isPermissionGranted = isPermissionGranted)
         }
     }
 
     private fun grantPermission() = intent {
-        val isPermissionGranted =
-            managePermission.requirePermission(Manifest.permission.RECORD_AUDIO)
-        reduce {
-            state.copy(
-                isPermissionGranted = isPermissionGranted
-            )
-        }
+        managePermission.requirePermission(Manifest.permission.RECORD_AUDIO)
+        checkPermission()
     }
 
     private fun startStopRecording() = intent {
@@ -54,7 +71,6 @@ class MainViewModel(
                 speechRecognition.stopRecognition()
             }
         } else {
-            reduce { state.copy(convertedText = "") }
             viewModelScope.launch(Dispatchers.Main) {
                 speechRecognition.startRecognition()
             }
