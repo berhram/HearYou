@@ -12,7 +12,6 @@ import com.velvet.hearyou.presentation.ui.SystemUISetup
 import com.velvet.hearyou.presentation.speech.PermissionListener
 import org.koin.android.ext.android.inject
 
-
 class AppActivity : NodeComponentActivity(), PermissionListener {
 
     private val permissionCache: ManagePermission by inject()

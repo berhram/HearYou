@@ -8,3 +8,5 @@ Russian only. I don't want to make 500+MB .apk. All you need to do to change lan
 - Koin
 - Vosk
 - Accompanist System UI Controller
+## Screenshots
+![screenshot](screen.png)
