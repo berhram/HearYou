@@ -1,4 +1,4 @@
-package com.velvet.hearyou.speech
+package com.velvet.hearyou.presentation.speech
 
 import androidx.annotation.StringRes
 import com.velvet.hearyou.R

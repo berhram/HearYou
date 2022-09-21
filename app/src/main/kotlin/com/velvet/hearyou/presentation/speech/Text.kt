@@ -1,4 +1,4 @@
-package com.velvet.hearyou.speech
+package com.velvet.hearyou.presentation.speech
 
 import com.google.gson.annotations.SerializedName
 

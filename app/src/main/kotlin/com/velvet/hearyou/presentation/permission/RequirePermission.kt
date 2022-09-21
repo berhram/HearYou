@@ -1,4 +1,4 @@
-package com.velvet.hearyou.permission
+package com.velvet.hearyou.presentation.permission
 
 interface RequirePermission {
 

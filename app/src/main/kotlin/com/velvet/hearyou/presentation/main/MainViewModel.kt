@@ -3,10 +3,10 @@ package com.velvet.hearyou.presentation.main
 import android.Manifest
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.velvet.hearyou.permission.ManagePermission
-import com.velvet.hearyou.speech.SpeechRecognition
-import com.velvet.hearyou.speech.SpeechRecognitionListener
-import com.velvet.hearyou.speech.SpeechRecognitionState
+import com.velvet.hearyou.presentation.permission.ManagePermission
+import com.velvet.hearyou.presentation.speech.SpeechRecognition
+import com.velvet.hearyou.presentation.speech.SpeechRecognitionListener
+import com.velvet.hearyou.presentation.speech.SpeechRecognitionState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.Container

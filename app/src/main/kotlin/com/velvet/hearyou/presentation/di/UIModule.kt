@@ -1,7 +1,7 @@
 package com.velvet.hearyou.presentation.di
 
-import com.velvet.hearyou.permission.ManagePermission
-import com.velvet.hearyou.speech.SpeechRecognition
+import com.velvet.hearyou.presentation.permission.ManagePermission
+import com.velvet.hearyou.presentation.speech.SpeechRecognition
 import com.velvet.hearyou.presentation.main.MainViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel

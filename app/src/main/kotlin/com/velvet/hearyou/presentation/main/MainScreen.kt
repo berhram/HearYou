@@ -17,7 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.velvet.hearyou.R
 import com.velvet.hearyou.presentation.ui.AppTheme
-import com.velvet.hearyou.speech.SpeechRecognitionState
+import com.velvet.hearyou.presentation.speech.SpeechRecognitionState
 
 @Composable
 fun MainScreen(state: MainState) {

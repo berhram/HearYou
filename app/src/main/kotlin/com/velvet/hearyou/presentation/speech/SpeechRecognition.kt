@@ -1,4 +1,4 @@
-package com.velvet.hearyou.speech
+package com.velvet.hearyou.presentation.speech
 
 import android.content.Context
 import com.google.gson.Gson

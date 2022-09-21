@@ -5,11 +5,11 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import com.bumble.appyx.core.integration.NodeHost
 import com.bumble.appyx.core.integrationpoint.NodeComponentActivity
-import com.velvet.hearyou.permission.ManagePermission
+import com.velvet.hearyou.presentation.permission.ManagePermission
 import com.velvet.hearyou.presentation.nav.RootNode
 import com.velvet.hearyou.presentation.ui.AppTheme
 import com.velvet.hearyou.presentation.ui.SystemUISetup
-import com.velvet.hearyou.speech.PermissionListener
+import com.velvet.hearyou.presentation.speech.PermissionListener
 import org.koin.android.ext.android.inject
 
 

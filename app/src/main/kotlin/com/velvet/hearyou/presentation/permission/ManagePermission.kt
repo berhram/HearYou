@@ -1,6 +1,6 @@
-package com.velvet.hearyou.permission
+package com.velvet.hearyou.presentation.permission
 
-import com.velvet.hearyou.speech.PermissionListener
+import com.velvet.hearyou.presentation.speech.PermissionListener
 
 interface ManagePermission : CheckPermission, RequirePermission {
 

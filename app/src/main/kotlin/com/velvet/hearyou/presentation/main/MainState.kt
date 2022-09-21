@@ -1,7 +1,7 @@
 package com.velvet.hearyou.presentation.main
 
 import androidx.compose.runtime.Immutable
-import com.velvet.hearyou.speech.SpeechRecognitionState
+import com.velvet.hearyou.presentation.speech.SpeechRecognitionState
 
 @Immutable
 data class MainState(
