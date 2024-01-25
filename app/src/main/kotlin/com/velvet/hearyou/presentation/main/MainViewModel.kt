@@ -35,46 +35,59 @@ class MainViewModel(
         checkPermission()
     }
 
-    override fun onSpeechRecognized(data: String) = intent {
-        reduce {
-            state.copy(convertedText = "${state.convertedText}\n$data")
-        }
-    }
-
-    override fun onState(state: SpeechRecognitionState) = intent {
-        reduce {
-            this.state.copy(speechRecognitionState = state)
-        }
-    }
-
-    private fun onClearButtonClick() = intent {
-        reduce {
-            state.copy(convertedText = "")
-        }
-    }
-
-    private fun checkPermission() = intent {
-        val isPermissionGranted = managePermission.checkPermission(Manifest.permission.RECORD_AUDIO)
-        reduce {
-            state.copy(isPermissionGranted = isPermissionGranted)
-        }
-    }
-
-    private fun grantPermission() = intent {
-        managePermission.requirePermission(Manifest.permission.RECORD_AUDIO)
-        checkPermission()
-    }
-
-    private fun startStopRecording() = intent {
-        if (state.isRecording) {
-            viewModelScope.launch(Dispatchers.Main) {
-                speechRecognition.stopRecognition()
-            }
-        } else {
-            viewModelScope.launch(Dispatchers.Main) {
-                speechRecognition.startRecognition()
+    override fun onSpeechRecognized(data: String) {
+        intent {
+            reduce {
+                state.copy(convertedText = "${state.convertedText}\n$data")
             }
         }
-        reduce { state.copy(isRecording = !state.isRecording) }
+    }
+
+    override fun onState(state: SpeechRecognitionState) {
+        intent {
+            reduce {
+                this.state.copy(speechRecognitionState = state)
+            }
+        }
+    }
+
+    private fun onClearButtonClick() {
+        intent {
+            reduce {
+                state.copy(convertedText = "")
+            }
+        }
+    }
+
+    private fun checkPermission() {
+        intent {
+            val isPermissionGranted =
+                managePermission.checkPermission(Manifest.permission.RECORD_AUDIO)
+            reduce {
+                state.copy(isPermissionGranted = isPermissionGranted)
+            }
+        }
+    }
+
+    private fun grantPermission() {
+        intent {
+            managePermission.requirePermission(Manifest.permission.RECORD_AUDIO)
+            checkPermission()
+        }
+    }
+
+    private fun startStopRecording() {
+        intent {
+            if (state.isRecording) {
+                viewModelScope.launch(Dispatchers.Main) {
+                    speechRecognition.stopRecognition()
+                }
+            } else {
+                viewModelScope.launch(Dispatchers.Main) {
+                    speechRecognition.startRecognition()
+                }
+            }
+            reduce { state.copy(isRecording = !state.isRecording) }
+        }
     }
 }

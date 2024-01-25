@@ -5,14 +5,14 @@ plugins {
 }
 
 android {
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.velvet.hearyou"
         minSdk = 23
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
-        versionName = "1.0"
+        versionName = "2.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         ndk {
             abiFilters.add("armeabi-v7a")
@@ -37,9 +37,10 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.3.1"
+        kotlinCompilerExtensionVersion = "1.5.8"
     }
 
     namespace = "com.velvet.hearyou"
@@ -48,12 +49,9 @@ android {
 dependencies {
     implementation(project(":models"))
     implementation(deps.gson)
-    implementation("net.java.dev.jna", "jna", "5.12.1", ext = "aar")
+    implementation("net.java.dev.jna", "jna", "5.14.0", ext = "aar")
     implementation(deps.bundles.implementation)
     implementation(deps.vosk) {
         exclude("net.java.dev.jna", "jna")
     }
-    testImplementation(deps.bundles.testImplementation)
-    androidTestImplementation(deps.bundles.androidTestImplementation)
-    debugImplementation(deps.bundles.debugImplementation)
 }

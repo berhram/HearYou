@@ -2,7 +2,6 @@ package com.velvet.hearyou
 
 import android.app.Application
 import com.velvet.hearyou.presentation.di.uiModule
-import org.koin.android.BuildConfig
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin

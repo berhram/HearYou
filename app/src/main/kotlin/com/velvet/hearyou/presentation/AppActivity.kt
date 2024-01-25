@@ -2,17 +2,19 @@ package com.velvet.hearyou.presentation
 
 import android.content.pm.PackageManager
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.bumble.appyx.core.integration.NodeHost
-import com.bumble.appyx.core.integrationpoint.NodeComponentActivity
+import com.velvet.hearyou.presentation.main.MainScreen
+import com.velvet.hearyou.presentation.main.MainViewModel
 import com.velvet.hearyou.presentation.permission.ManagePermission
-import com.velvet.hearyou.presentation.nav.RootNode
+import com.velvet.hearyou.presentation.speech.PermissionListener
 import com.velvet.hearyou.presentation.ui.AppTheme
 import com.velvet.hearyou.presentation.ui.SystemUISetup
-import com.velvet.hearyou.presentation.speech.PermissionListener
 import org.koin.android.ext.android.inject
+import org.koin.androidx.compose.koinViewModel
+import org.orbitmvi.orbit.compose.collectAsState
 
-class AppActivity : NodeComponentActivity(), PermissionListener {
+class AppActivity : ComponentActivity(), PermissionListener {
 
     private val permissionCache: ManagePermission by inject()
 
@@ -22,9 +24,8 @@ class AppActivity : NodeComponentActivity(), PermissionListener {
         setContent {
             AppTheme {
                 SystemUISetup()
-                NodeHost(integrationPoint = integrationPoint) {
-                    RootNode(buildContext = it)
-                }
+                val state = koinViewModel<MainViewModel>().collectAsState().value
+                MainScreen(state)
             }
         }
         permissionCache.setListener(this)
