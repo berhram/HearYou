@@ -14,7 +14,11 @@ dependencyResolutionManagement {
             version("koin", "3.5.3")
             version("accompanist", "0.34.0")
             version("orbit", "6.1.0")
+            version("media3", "1.2.1")
             //implementation
+            library("exoplayer", "androidx.media3", "media3-exoplayer").versionRef("media3")
+            library("okhttp", "androidx.media3", "media3-datasource-okhttp").versionRef("media3")
+            library("mediaui", "androidx.media3", "media3-ui").versionRef("media3")
             library("gson", "com.google.code.gson", "gson").version("2.10.1")
             library("vosk", "com.alphacephei", "vosk-android").version("0.3.47")
             library(
@@ -55,7 +59,10 @@ dependencyResolutionManagement {
                     "orbitCore",
                     "orbitViewModel",
                     "orbitCompose",
-                    "controller"
+                    "controller",
+                    "exoplayer",
+                    "okhttp",
+                    "mediaui"
                 )
             )
             //debugImplementation

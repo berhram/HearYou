@@ -20,15 +20,7 @@ class MainViewModel(
     private val speechRecognition: SpeechRecognition
 ) : ViewModel(), ContainerHost<MainState, MainEffect>, SpeechRecognitionListener {
 
-    override val container: Container<MainState, MainEffect> =
-        container(
-            MainState(
-                onGrantClick = { grantPermission() },
-                onStartStopClick = { startStopRecording() },
-                isPermissionGranted = false,
-                onClearClick = { onClearButtonClick() }
-            )
-        )
+    override val container: Container<MainState, MainEffect> = container(MainState())
 
     init {
         speechRecognition.setSpeechRecognitionListener(this)
@@ -51,7 +43,7 @@ class MainViewModel(
         }
     }
 
-    private fun onClearButtonClick() {
+    fun clearButtonClick() {
         intent {
             reduce {
                 state.copy(convertedText = "")
@@ -59,7 +51,7 @@ class MainViewModel(
         }
     }
 
-    private fun checkPermission() {
+    fun checkPermission() {
         intent {
             val isPermissionGranted =
                 managePermission.checkPermission(Manifest.permission.RECORD_AUDIO)
@@ -69,14 +61,14 @@ class MainViewModel(
         }
     }
 
-    private fun grantPermission() {
+    fun grantPermission() {
         intent {
             managePermission.requirePermission(Manifest.permission.RECORD_AUDIO)
             checkPermission()
         }
     }
 
-    private fun startStopRecording() {
+    fun startStopRecording() {
         intent {
             if (state.isRecording) {
                 viewModelScope.launch(Dispatchers.Main) {

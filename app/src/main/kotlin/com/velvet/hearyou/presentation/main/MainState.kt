@@ -7,9 +7,6 @@ import com.velvet.hearyou.presentation.speech.SpeechRecognitionState
 data class MainState(
     val convertedText: String = "",
     val isRecording: Boolean = false,
-    val isPermissionGranted: Boolean,
-    val onGrantClick: () -> Unit,
-    val onStartStopClick: () -> Unit,
-    val speechRecognitionState: SpeechRecognitionState = SpeechRecognitionState.NONE,
-    val onClearClick: () -> Unit
+    val isPermissionGranted: Boolean = false,
+    val speechRecognitionState: SpeechRecognitionState = SpeechRecognitionState.NONE
 )
