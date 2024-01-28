@@ -18,7 +18,10 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,26 +31,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.media3.common.MediaItem
 import androidx.media3.common.util.UnstableApi
-import androidx.media3.common.util.Util
-import androidx.media3.datasource.DefaultHttpDataSource
-import androidx.media3.datasource.cache.CacheDataSource
 import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.ui.PlayerView
-import com.velvet.hearyou.App
 import com.velvet.hearyou.R
+import com.velvet.hearyou.downloadFileInInternalStorage
+import com.velvet.hearyou.filePathInInternalStorage
 import com.velvet.hearyou.presentation.speech.SpeechRecognitionState
-import kotlin.math.roundToInt
 
-const val VIDEO_URL = "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+const val VIDEO_URL = "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+
+const val VIDEO_NAME = "Blazes.mp4"
 
 @OptIn(UnstableApi::class)
 @Composable
 fun MainScreen(
     state: MainState,
-    viewModel: MainViewModel,
-    downloadMedia: (String) -> Unit,
-    downloadProgress: Float
+    viewModel: MainViewModel
 ) {
 
     Surface(color = MaterialTheme.colors.surface) {
@@ -56,44 +55,57 @@ fun MainScreen(
                 .fillMaxSize()
                 .padding(20.dp)
         ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp)
-            ) {
-                val context = LocalContext.current
-                val dataSourceFactory = (context.applicationContext as App).appContainer.dataSource
-                val cachedDataSourceFactory = CacheDataSource.Factory()
-                    .setCache((context.applicationContext as App).appContainer.downloadCache)
-                    .setUpstreamDataSourceFactory(dataSourceFactory)
-                val mediaItem = MediaItem.fromUri(Uri.parse(VIDEO_URL))
-                val mediaSourceFactory = DefaultMediaSourceFactory(cachedDataSourceFactory)
-                val mediaSource = mediaSourceFactory.createMediaSource(mediaItem)
-                val exoPlayer = remember {
-                    ExoPlayer.Builder(context).setMediaSourceFactory(mediaSourceFactory).build()
-                        .apply {
-                            setMediaSource(mediaSource)
+            val context = LocalContext.current
+            var downloaded by remember { mutableLongStateOf(0L) }
+            var total by remember { mutableLongStateOf(0L) }
+            val fileDownloaded = downloaded == total && total != 0L
+            val fileDownloading = total != 0L && downloaded != total
+            if (fileDownloaded) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp)
+                ) {
+
+                    val mediaItem =
+                        MediaItem.fromUri(Uri.parse(filePathInInternalStorage(context, VIDEO_NAME)))
+                    val exoPlayer = remember {
+                        ExoPlayer.Builder(context).build().apply {
+                            setMediaItem(mediaItem)
                             prepare()
                         }
+                    }
+                    AndroidView(
+                        factory = {
+                            PlayerView(it).apply {
+                                player = exoPlayer
+                            }
+                        },
+                        modifier = Modifier.fillMaxSize()
+                    )
                 }
-                AndroidView(
-                    factory = {
-                        PlayerView(it).apply {
-                            player = exoPlayer
+            } else {
+                if (downloaded != 0L && total != 0L) {
+                    Text(
+                        text = "${stringResource(id = R.string.progress)}: $downloaded/$total megabytes",
+                    )
+                }
+                Button(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = {
+                        downloadFileInInternalStorage(
+                            context,
+                            VIDEO_URL,
+                            VIDEO_NAME
+                        ) { downloadedCallback, totalCallback ->
+                            downloaded = downloadedCallback
+                            total = totalCallback
                         }
                     },
-                    modifier = Modifier.fillMaxSize()
-                )
-            }
-            Text(
-                text = "${stringResource(id = R.string.progress)}: ${downloadProgress.roundToInt()}%",
-            )
-            Button(
-                modifier = Modifier.fillMaxWidth(),
-                onClick = { downloadMedia(VIDEO_URL) },
-                enabled = downloadProgress < 100f
-            ) {
-                Text(text = stringResource(id = R.string.download))
+                    enabled = !fileDownloading
+                ) {
+                    Text(text = stringResource(id = R.string.download))
+                }
             }
 
             val scrollState = rememberScrollState()

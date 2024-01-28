@@ -51,7 +51,7 @@ class MainViewModel(
         }
     }
 
-    fun checkPermission() {
+    private fun checkPermission() {
         intent {
             val isPermissionGranted =
                 managePermission.checkPermission(Manifest.permission.RECORD_AUDIO)
